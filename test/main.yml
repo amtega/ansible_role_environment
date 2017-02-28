@@ -1,0 +1,49 @@
+---
+
+- name: bring up docker containers
+  hosts: localhost
+  gather_facts: false
+  connection: local
+  tasks:
+  - docker_container:
+      name: ansible-test-role
+      image: centos:7
+      state: started
+      recreate: yes
+      pull: yes
+      restart_policy: on-failure
+      restart_retries: 3
+      # volumes:
+    #   - /some/nginx.conf:/etc/nginx/nginx.conf:ro
+
+
+# - name: bring up docker containers
+#   hosts: localhost
+#   gather_facts: false
+#   vars:
+#     inventory:
+#       - name: iptables_host_1
+#         image: "chrismeyers/centos6"
+#   roles:
+#     - { role: provision_docker, provision_docker_inventory: "{{ inventory }}" }
+#
+#
+# - name: Hello world
+#   hosts: docker_containers
+#   tasks:
+#    - debug: msg=”Hello World”
+
+
+
+# - hosts: localhost
+#   tasks:
+#     - name: install
+#       pip:
+#         name: docker-py
+
+# - hosts: all
+#   roles:
+#     - environment
+#   vars:
+#     environment_config:
+#       LC_ALL: C

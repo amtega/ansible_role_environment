@@ -1,0 +1,18 @@
+---
+# Role tasks
+
+- name: create environment variables file
+  file:
+    path: "{{ environment_file }}"
+    owner: "{{ environment_file_owner }}"
+    group: "{{ environment_file_group }}"
+    mode: "{{ environment_file_mode }}"
+    state: file
+  register: environment_file_result
+
+- name: configure environment variables
+  lineinfile:
+    dest: "{{ environment_file }}"
+    regexp: "^{{ item.key }}="
+    line: '{{ item.key }}="{{ item.value }}"'
+  with_dict: "{{ environment_config }}"
