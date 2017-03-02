@@ -4,17 +4,41 @@
   hosts: localhost
   gather_facts: false
   connection: local
-  tasks:
-  - docker_container:
-      name: ansible-test-role
-      image: centos:7
-      state: started
-      recreate: yes
-      pull: yes
-      restart_policy: on-failure
-      restart_retries: 3
-      # volumes:
-    #   - /some/nginx.conf:/etc/nginx/nginx.conf:ro
+  vars:
+    roles_path: "{{ role_path }}/.."
+  roles:
+    - { role: docker_role_tester, tags: ["docker_role_tester::images"] }
+  # tasks:
+  # - name: generate random name for docker containers
+  #   set_fact:
+  #     docker_container_name: >-
+  #       ansible-test-{{ 9999999999999999999999 | random | to_uuid }}
+  #
+  # - name: prepare docker image
+  #   docker_image:
+  #     name: ansible_test
+  #     dockerfile: Dockerfile.centos-7
+  #     buildargs:
+  #       ROLE_NAME: environment
+  #     force: true
+  #     path: "."
+  #     rm: true
+  #     state: present
+
+  # - name: create and start docker container
+  #   docker_container:
+  #     name: "{{ docker_container_name }}"
+  #     image: centos:7
+  #     state: started
+  #     recreate: yes
+  #     pull: yes
+  #     restart_policy: on-failure
+  #     restart_retries: 3
+  #
+  # - name: stop and delete docker containers
+  #   docker_container:
+  #     name: "{{ docker_container_name }}"
+  #     state: absent
 
 
 # - name: bring up docker containers
@@ -25,7 +49,7 @@
 #       - name: iptables_host_1
 #         image: "chrismeyers/centos6"
 #   roles:
-#     - { role: provision_docker, provision_docker_inventory: "{{ inventory }}" }
+#     - { role: provision_docker, docker_role_testerinventory: "{{ inventory }}" }
 #
 #
 # - name: Hello world

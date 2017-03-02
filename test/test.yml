@@ -1,0 +1,6 @@
+- hosts: localhost
+   roles:
+     - environment
+   vars:
+     environment_config:
+       LC_ALL: C
