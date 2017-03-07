@@ -24,4 +24,4 @@ environment_file_mode: 644
 # environment_config:
 #   LC_ALL: en_US.UTF-8
 
-environment_config:
+environment_config: {}

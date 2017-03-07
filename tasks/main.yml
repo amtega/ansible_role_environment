@@ -16,3 +16,5 @@
     regexp: "^{{ item.key }}="
     line: '{{ item.key }}="{{ item.value }}"'
   with_dict: "{{ environment_config }}"
+  loop_control:
+    label: "{{ item.key }}"

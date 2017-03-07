@@ -1,73 +1,25 @@
 ---
+# Tasks for tesing role
 
 - name: bring up docker containers
   hosts: localhost
   gather_facts: false
   connection: local
-  vars:
-    roles_path: "{{ role_path }}/.."
   roles:
     - docker_role_tester
-  # tasks:
-  # - name: generate random name for docker containers
-  #   set_fact:
-  #     docker_container_name: >-
-  #       ansible-test-{{ 9999999999999999999999 | random | to_uuid }}
-  #
-  # - name: prepare docker image
-  #   docker_image:
-  #     name: ansible_test
-  #     dockerfile: Dockerfile.centos-7
-  #     buildargs:
-  #       ROLE_NAME: environment
-  #     force: true
-  #     path: "."
-  #     rm: true
-  #     state: present
 
-  # - name: create and start docker container
-  #   docker_container:
-  #     name: "{{ docker_container_name }}"
-  #     image: centos:7
-  #     state: started
-  #     recreate: yes
-  #     pull: yes
-  #     restart_policy: on-failure
-  #     restart_retries: 3
-  #
-  # - name: stop and delete docker containers
-  #   docker_container:
-  #     name: "{{ docker_container_name }}"
-  #     state: absent
+- name: test the role
+  hosts: docker_role_tester_containers
+  vars:
+    environment_config:
+      LC_ALL: C
+      LANG: en_US.UTF-8
+  roles:
+    - environment
 
-
-# - name: bring up docker containers
-#   hosts: localhost
-#   gather_facts: false
-#   vars:
-#     inventory:
-#       - name: iptables_host_1
-#         image: "chrismeyers/centos6"
-#   roles:
-#     - { role: provision_docker, docker_role_testerinventory: "{{ inventory }}" }
-#
-#
-# - name: Hello world
-#   hosts: docker_containers
-#   tasks:
-#    - debug: msg=”Hello World”
-
-
-
-# - hosts: localhost
-#   tasks:
-#     - name: install
-#       pip:
-#         name: docker-py
-
-# - hosts: all
-#   roles:
-#     - environment
-#   vars:
-#     environment_config:
-#       LC_ALL: C
+- name: bring down docker containers
+  hosts: localhost
+  gather_facts: false
+  connection: local
+  roles:
+    - { role: docker_role_tester, container_state: absent }
