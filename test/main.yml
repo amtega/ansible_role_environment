@@ -1,25 +1,41 @@
 ---
 # Tasks for tesing role
 
-- name: bring up docker containers
+- name: setup docker testing environment
   hosts: localhost
-  gather_facts: false
-  connection: local
   roles:
     - docker_role_tester
 
-- name: test the role
+- name: run the role
   hosts: docker_role_tester_containers
-  vars:
-    environment_config:
-      LC_ALL: C
-      LANG: en_US.UTF-8
   roles:
     - environment
 
-- name: bring down docker containers
+- name: test role idempotence
   hosts: localhost
-  gather_facts: false
-  connection: local
-  roles:
-    - { role: docker_role_tester, container_state: absent }
+  tasks:
+    - name: run the role again verify idempotence
+      command: >-
+        ansible-playbook
+        --extra-vars "idempotence_only=true"
+        main.yml
+      when: idempotence_only is undefined
+      register: role_idempotence_output
+
+    # - name: verify idempotence test results
+    #   fail:
+    #     msg: "idempotence test failed"
+    #   when: >
+    #   not role_idempotence_output.stdout | search(
+    #     "Bootflash image upgrade for stack-unit .* completed successfully")
+
+    - debug: var=role_idempotence_output
+#
+# - hosts: localhost
+#   tasks:
+#     - debug: var=role_test_output
+
+# - name: bring down docker containers
+#   hosts: localhost
+#   roles:
+#     - { role: docker_role_tester, container_state: absent }
