@@ -5,22 +5,34 @@
   hosts: localhost
   roles:
     - docker_role_tester
-
-- name: run the role
-  hosts: docker_role_tester_containers
-  roles:
-    - environment
-
-- name: test role idempotence
-  hosts: localhost
   tasks:
-    - name: run the role again verify idempotence
-      command: >-
-        ansible-playbook
-        --extra-vars "idempotence_only=true"
-        main.yml
-      when: idempotence_only is undefined
-      register: role_idempotence_output
+    - debug: var=hostvars
+      tags: always
+
+# - name: run the role
+#   hosts: docker_provisioner_containers
+#   roles:
+#     - environment
+
+# - name: run the role again
+#   hosts: docker_role_tester_containers
+#   vars:
+#     log_path: ./log
+#   roles:
+#     - environment
+
+
+
+      #- name: test role idempotence
+      #hosts: localhost
+      #tasks:
+      #- name: run the role again verify idempotence
+      #command: >-
+      #  ansible-playbook
+      #  --extra-vars "idempotence_only=true"
+      #  main.yml
+      #when: idempotence_only is undefined
+      #register: role_idempotence_output
 
     # - name: verify idempotence test results
     #   fail:
@@ -29,7 +41,7 @@
     #   not role_idempotence_output.stdout | search(
     #     "Bootflash image upgrade for stack-unit .* completed successfully")
 
-    - debug: var=role_idempotence_output
+      #- debug: var=role_idempotence_output
 #
 # - hosts: localhost
 #   tasks:
