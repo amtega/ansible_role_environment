@@ -6,8 +6,7 @@
   roles:
     - docker_role_tester
   tasks:
-    - debug: var=hostvars
-      tags: always
+
 
 # - name: run the role
 #   hosts: docker_provisioner_containers
