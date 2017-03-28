@@ -1,6 +1,0 @@
----
-# Variables for testing dockers containers
-
-environment_config:
-  TEST_VARIABLE_1: "value 1"
-  TEST_VARIABLE_2: "value 2"

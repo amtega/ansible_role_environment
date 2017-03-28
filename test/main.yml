@@ -1,52 +1,37 @@
 ---
 # Tasks for tesing role
 
-- name: setup docker testing environment
+- name: test environment role
   hosts: localhost
   roles:
     - docker_role_tester
   tasks:
+    - name: cleanup log file
+      copy:
+        content: ""
+        dest: ./test.log
+        force: no
 
+- name: apply role to docker containers
+  hosts: docker_role_tester_containers
+  vars:
+      environment_config:
+        TEST_VARIABLE_1: "value 1"
+        TEST_VARIABLE_2: "value 2"
+  roles:
+    - environment
 
-# - name: run the role
-#   hosts: docker_provisioner_containers
-#   roles:
-#     - environment
+- name: apply again role to docker containers
+  hosts: docker_role_tester_containers
+  vars:
+      environment_config:
+        TEST_VARIABLE_1: "value 1"
+        TEST_VARIABLE_2: "value 2"
+  roles:
+    - name: environment
 
-# - name: run the role again
-#   hosts: docker_role_tester_containers
-#   vars:
-#     log_path: ./log
-#   roles:
-#     - environment
-
-
-
-      #- name: test role idempotence
-      #hosts: localhost
-      #tasks:
-      #- name: run the role again verify idempotence
-      #command: >-
-      #  ansible-playbook
-      #  --extra-vars "idempotence_only=true"
-      #  main.yml
-      #when: idempotence_only is undefined
-      #register: role_idempotence_output
-
-    # - name: verify idempotence test results
-    #   fail:
-    #     msg: "idempotence test failed"
-    #   when: >
-    #   not role_idempotence_output.stdout | search(
-    #     "Bootflash image upgrade for stack-unit .* completed successfully")
-
-      #- debug: var=role_idempotence_output
-#
-# - hosts: localhost
-#   tasks:
-#     - debug: var=role_test_output
-
-# - name: bring down docker containers
-#   hosts: localhost
-#   roles:
-#     - { role: docker_role_tester, container_state: absent }
+- name: cleanup
+  hosts: localhost
+  roles:
+    - role: docker_role_tester
+      docker_role_tester_cleanup: true
