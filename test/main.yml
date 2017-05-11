@@ -2,23 +2,13 @@
 # Tasks for tesing role
 
 - name: test environment role
-  hosts: localhost
-  roles:
-    - docker_role_tester
-  tasks:
-    - name: cleanup log file
-      copy:
-        content: ""
-        dest: ./test.log
-        force: no
-
-- name: apply role to docker containers
   hosts: docker_role_tester_containers
   vars:
       environment_config:
         TEST_VARIABLE_1: "value 1"
         TEST_VARIABLE_2: "value 2"
   roles:
+    - docker_role_tester
     - environment
 
 - name: apply again role to docker containers
