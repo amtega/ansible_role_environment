@@ -1,6 +1,11 @@
 ---
 # Tasks for tesing role
 
+- name: setup docker testing environment
+  hosts: localhost
+  roles:
+    - docker_role_tester
+
 - name: test environment role
   hosts: docker_role_tester_containers
   vars:
@@ -8,20 +13,12 @@
         TEST_VARIABLE_1: "value 1"
         TEST_VARIABLE_2: "value 2"
   roles:
-    - docker_role_tester
     - environment
+  tags:
+    - test-idempotence
 
-- name: apply again role to docker containers
-  hosts: docker_role_tester_containers
-  vars:
-      environment_config:
-        TEST_VARIABLE_1: "value 1"
-        TEST_VARIABLE_2: "value 2"
-  roles:
-    - name: environment
-
-- name: cleanup
+- name: cleanup docker testing environment
   hosts: localhost
   roles:
     - role: docker_role_tester
-      docker_role_tester_cleanup: true
+      docker_role_tester_containers_state: absent
