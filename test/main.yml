@@ -1,24 +1,50 @@
 ---
-# Tasks for tesing role
 
-- name: setup docker testing environment
+- name: load docker presets and configure docker sandbox
   hosts: localhost
   roles:
-    - docker_role_tester
+   - docker_presets
+  tasks:
+    - name: setup facts to configure docker sandbox
+      set_fact:
+        docker_sandbox_images: >-
+          {{ docker_presets_images }}
+        docker_sandbox_containers: >-
+          {{ docker_presets_containers | docker_presets_randomize_names }}
+
+- name: setup docker sandbox for testing
+  hosts: localhost
+  roles:
+    - role: docker_sandbox
+      docker_sandbox_state: started
 
 - name: test environment role
-  hosts: docker_role_tester_containers
+  hosts: docker_sandbox_containers
   vars:
-      environment_config:
-        TEST_VARIABLE_1: "value 1"
-        TEST_VARIABLE_2: "value 2"
+    environment_config:
+      TEST_VARIABLE_1: "value 1"
+      TEST_VARIABLE_2: "value 2"
   roles:
     - environment
-  tags:
-    - test-idempotence
+  tasks:
+    - name: get testing environment variables
+      shell: >-
+        source /etc/environment ; echo $TEST_VARIABLE_1 ; echo $TEST_VARIABLE_2
+      args:
+        executable: /bin/bash
+      changed_when: false
+      register: get_testing_variables_result
 
-- name: cleanup docker testing environment
+    - name: verify testing environment variables
+      assert:
+        that:
+          - get_testing_variables_result.stdout_lines[0] == "value 1"
+          - get_testing_variables_result.stdout_lines[1] == "value 2"
+  tags:
+    - idempotence
+
+- name: cleanup docker docker sandbox
   hosts: localhost
   roles:
-    - role: docker_role_tester
-      docker_role_tester_containers_state: absent
+    - role: docker_sandbox
+      docker_sandbox_state: absent
