@@ -1,20 +1,9 @@
 ---
 
-- name: load docker presets and configure docker sandbox
+- name: run idempotence test
   hosts: localhost
   roles:
-   - docker_presets
-  tasks:
-    - name: setup facts to configure docker sandbox
-      set_fact:
-        docker_sandbox_images: >-
-          {{ docker_presets_images }}
-        docker_sandbox_containers: >-
-          {{ docker_presets_containers | docker_presets_randomize_names }}
-
-- name: setup docker sandbox for testing
-  hosts: localhost
-  roles:
+    - role: docker_presets
     - role: docker_sandbox
       docker_sandbox_state: started
 

@@ -8,36 +8,7 @@ Environment is an [Ansible](http://www.ansible.com) role which adds `/etc/enviro
 
 ## Variables
 
-Here is a list of all the default variables for this role, which are also available in `defaults/main.yml`.
-
-```yaml
----
-
-# Path to the environment file
-
-environment_file: /etc/environment
-
-# The environment file owner
-
-environment_file_owner: root
-
-# The environment file group
-
-environment_file_group: root
-
-# The environment file permissions mode
-
-environment_file_mode: 644
-
-# Dictionary of environment variables
-#
-# Sample:
-#
-# environment_config:
-#   LC_ALL: en_US.UTF-8
-
-environment_config:
-```
+A list of all the default variables for this role is available in `defaults/main.yml`.
 
 ## Usage
 
@@ -56,8 +27,24 @@ This is an example playbook:
 
 ## Testing
 
+Test are based on docker containers. You can run the tests with the following commands:
+
 ```shell
-$ git clone https://github.com/weareinteractive/ansible-environment.git
-$ cd ansible-environment
-$ make test
+$ cd environment/test
+$ ansible-playbook main.yml
 ```
+
+If you have docker engine configured you can avoid running dependant 'docker_engine' role (that usually requries root privileges) with the following commands:
+
+```shell
+$ cd environment/test
+$ ansible-playbook --skip-tags "role::docker_engine" main.yml
+```
+
+## License
+
+Not defined.
+
+## Author Information
+
+- Juan Antonio Valiño García ([juanval@edu.xunta.es](mailto:juanval@edu.xunta.es)). Amtega - Xunta de Galicia
