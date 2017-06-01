@@ -2,4 +2,4 @@
 
 ## 2017-05-31
 
-- Initial release
+- Initial release.
