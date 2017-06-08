@@ -1,6 +1,6 @@
 # Ansible environment role
 
-Environment is an [Ansible](http://www.ansible.com) role which adds `/etc/environment` variables
+This is an [Ansible](http://www.ansible.com) role which adds `/etc/environment` variables
 
 ## Dependencies
 
