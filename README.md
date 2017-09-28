@@ -2,7 +2,7 @@
 
 This is an [Ansible](http://www.ansible.com) role which adds `/etc/environment` variables
 
-## Dependencies
+## Requirements
 
 - Ansible >= 2.0
 
@@ -10,7 +10,11 @@ This is an [Ansible](http://www.ansible.com) role which adds `/etc/environment` 
 
 A list of all the default variables for this role is available in `defaults/main.yml`.
 
-## Usage
+## Dependencies
+
+None.
+
+## Example Playbook
 
 This is an example playbook:
 
