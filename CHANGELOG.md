@@ -7,3 +7,7 @@
 ## 2017-09-28
 
 - Improved documentation.
+
+## 2017-09-29
+
+- Updated documentation.

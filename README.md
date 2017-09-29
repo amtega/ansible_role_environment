@@ -4,7 +4,7 @@ This is an [Ansible](http://www.ansible.com) role which adds `/etc/environment` 
 
 ## Requirements
 
-- Ansible >= 2.0
+- Ansible >= 2.4
 
 ## Variables
 
