@@ -3,8 +3,8 @@
 - name: run idempotence test
   hosts: localhost
   roles:
-    - role: docker_presets
-    - role: docker_sandbox
+    - role: amtega.docker_presets
+    - role: amtega.docker_sandbox
       docker_sandbox_state: started
 
 - name: test environment role
@@ -14,7 +14,7 @@
       TEST_VARIABLE_1: "value 1"
       TEST_VARIABLE_2: "value 2"
   roles:
-    - environment
+    - amtega.environment
   tasks:
     - name: get testing environment variables
       shell: >-
@@ -35,5 +35,5 @@
 - name: cleanup docker docker sandbox
   hosts: localhost
   roles:
-    - role: docker_sandbox
+    - role: amtega.docker_sandbox
       docker_sandbox_state: absent
