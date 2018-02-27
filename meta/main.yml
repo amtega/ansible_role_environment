@@ -8,12 +8,13 @@ galaxy_info:
   platforms:
   - name: Fedora
     versions:
-    - 25
-    - 26
+      - 25
+      - 26
+      - 27
   - name: EL
     versions:
-    - 6
-    - 7
+      - 6
+      - 7
   galaxy_tags:
     - system
 
