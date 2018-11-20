@@ -5,18 +5,10 @@ galaxy_info:
   description: Setups `/etc/environment` variables
   company: AMTEGA - Xunta de Galicia
   license: GPLv3 or EUPL
-  min_ansible_version: 2.4
+  min_ansible_version: 2.7
   platforms:
-  - name: Fedora
-    versions:
-      - 25
-      - 26
-      - 27
-  - name: EL
-    versions:
-      - 6
-      - 7
-  galaxy_tags:
-    - system
+    - name: GenericLinux
+      versions:
+        - all
 
 dependencies: []
