@@ -14,10 +14,12 @@
     - name: configure environment variables
       lineinfile:
         dest: "{{ environment_file }}"
-        regexp: "^{{ item.key }}="
-        line: '{{ item.key }}="{{ item.value }}"'
-      with_dict: "{{ environment_config }}"
+        regexp: "^{{ environment_item.key }}="
+        line: '{{ environment_item.key }}="{{ environment_item.value }}"'
+      when: environment_item.value is not none
+      loop: "{{ environment_config | dict2items }}"
       loop_control:
-        label: "{{ item.key }}"
+        loop_var: environment_item
+        label: "{{ environment_item.key }}"
   tags:
     - role::environment
