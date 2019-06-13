@@ -2,7 +2,7 @@
 # Role tasks
 
 - block:
-    - name: create environment variables file
+    - name: Create environment variables file
       file:
         path: "{{ environment_file }}"
         owner: "{{ environment_file_owner }}"
@@ -11,7 +11,7 @@
         state: file
       register: environment_file_result
 
-    - name: configure environment variables
+    - name: Configure environment variables
       lineinfile:
         dest: "{{ environment_file }}"
         regexp: "^{{ environment_item.key }}="
