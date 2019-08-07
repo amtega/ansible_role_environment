@@ -1,4 +1,6 @@
 ---
+# Role dependencies
+
 galaxy_info:
   role_name: environment
   author: Juan Antonio Valiño García
