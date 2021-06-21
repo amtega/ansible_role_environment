@@ -15,7 +15,7 @@ environment_file_group: root
 
 # The environment file permissions mode
 
-environment_file_mode: 644
+environment_file_mode: 0644
 
 # Dictionary of environment variables
 #

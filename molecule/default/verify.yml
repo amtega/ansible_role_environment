@@ -1,0 +1,19 @@
+---
+
+- name: Verify
+  hosts: molecule_hosts
+  gather_facts: no
+  tasks:
+    - name: Get testing environment variables
+      shell: >-
+        source /etc/environment ; echo $TEST_VARIABLE_1 ; echo $TEST_VARIABLE_2
+      args:
+        executable: /bin/bash
+      changed_when: no
+      register: get_testing_variables_result
+
+    - name: Verify testing environment variables
+      assert:
+        that:
+          - get_testing_variables_result.stdout_lines[0] == "value 1"
+          - get_testing_variables_result.stdout_lines[1] == "value 2"
