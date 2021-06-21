@@ -3,6 +3,7 @@
 
 galaxy_info:
   role_name: environment
+  namespace: amtega
   author: Juan Antonio Valiño García
   description: Setups /etc/environment variables
   company: AMTEGA - Xunta de Galicia

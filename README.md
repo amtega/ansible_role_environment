@@ -23,18 +23,17 @@ This is an example playbook:
 
 ## Testing
 
-Tests are based on docker containers. You can setup docker engine quickly using the playbook `files/setup.yml` available in the role [amtega.docker_engine](https://galaxy.ansible.com/amtega/docker_engine).
-
-Once you have docker, you can run the tests with the following commands:
+Tests are based on [molecule with docker containers](https://molecule.readthedocs.io/en/latest/installation.html).
 
 ```shell
-$ cd amtega.environment/tests
-$ ansible-playbook main.yml
+cd amtega.envornment
+
+molecule test --all
 ```
 
 ## License
 
-Copyright (C) 2019 AMTEGA - Xunta de Galicia
+Copyright (C) 2021 AMTEGA - Xunta de Galicia
 
 This role is free software: you can redistribute it and/or modify it under the terms of:
 

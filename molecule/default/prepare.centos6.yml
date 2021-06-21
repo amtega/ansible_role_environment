@@ -1,0 +1,28 @@
+---
+
+- name: Prepare CentOS 6 hosts
+  hosts: molecule_hosts_centos_6
+  gather_facts: no
+  tasks:
+    - name: Disable repos mirror list
+      replace:
+        path: "/etc/yum.repos.d/{{ repo_file }}"
+        regexp: "(^mirrorlist=.*)"
+        replace: "#\\1"
+      loop: "{{ repo_files }}"
+      loop_control:
+        loop_var: repo_file
+
+    - name: Point repos to vault
+      replace:
+        path: "/etc/yum.repos.d/{{ repo_file }}"
+        regexp: "#baseurl=http://mirror.centos.org/"
+        replace: "baseurl=http://vault.centos.org/"
+      loop: "{{ repo_files }}"
+      loop_control:
+        loop_var: repo_file
+  vars:
+    repo_files:
+      - CentOS-Base.repo
+      - CentOS-Debuginfo.repo
+      - CentOS-fasttrack.repo
