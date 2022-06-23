@@ -1,25 +1,36 @@
 ---
-# Role tasks
 
-- block:
-    - name: Create environment variables file
-      file:
+- name: Setup environment
+  block:
+    - name: Check environment variables file
+      ansible.builtin.stat:
         path: "{{ environment_file }}"
-        owner: "{{ environment_file_owner }}"
-        group: "{{ environment_file_group }}"
-        mode: "{{ environment_file_mode }}"
-        state: file
-      register: environment_file_result
+      register: environment_stat_result
 
-    - name: Configure environment variables
-      lineinfile:
-        dest: "{{ environment_file }}"
-        regexp: "^{{ environment_item.key }}="
-        line: '{{ environment_item.key }}="{{ environment_item.value }}"'
-      when: environment_item.value is not none
-      loop: "{{ environment_config | dict2items }}"
-      loop_control:
-        loop_var: environment_item
-        label: "{{ environment_item.key }}"
+    - name: Configure environment variables file
+      block:
+        - name: Setup environment variables file
+          ansible.builtin.file:
+            path: "{{ environment_file }}"
+            owner: "{{ environment_file_owner }}"
+            group: "{{ environment_file_group }}"
+            mode: "{{ environment_file_mode }}"
+            state: file
+          register: environment_file_result
+
+        - name: Configure environment variables
+          ansible.builtin.lineinfile:
+            dest: "{{ environment_file }}"
+            regexp: "^{{ environment_item.key }}="
+            line: '{{ environment_item.key }}="{{ environment_item.value }}"'
+          when: environment_item.value is not none
+          loop: "{{ environment_config | dict2items }}"
+          loop_control:
+            loop_var: environment_item
+            label: "{{ environment_item.key }}"
+      when: >-
+        not environment_skip_if_not_writeable | bool
+        or (environment_skip_if_not_writeable | bool
+            and environment_stat_result.stat.writeable)
   tags:
     - role::environment

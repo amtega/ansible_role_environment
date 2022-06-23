@@ -8,10 +8,10 @@ galaxy_info:
   description: Setups /etc/environment variables
   company: AMTEGA - Xunta de Galicia
   license: GPLv3 or EUPL
-  min_ansible_version: 2.10
+  min_ansible_version: "2.10"
   platforms:
     - name: GenericLinux
       versions:
-        - all
+        - "all"
 
 dependencies: []

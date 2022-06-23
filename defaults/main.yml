@@ -25,3 +25,7 @@ environment_file_mode: 0644
 #   LC_ALL: en_US.UTF-8
 
 environment_config: {}
+
+# Skip environment setup if file not writeable
+
+environment_skip_if_not_writeable: no

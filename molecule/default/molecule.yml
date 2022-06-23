@@ -9,7 +9,7 @@ dependency:
     role-file: "${MOLECULE_SCENARIO_DIRECTORY}/requirements.yml"
     requirements-file: "${MOLECULE_SCENARIO_DIRECTORY}/requirements.yml"
 driver:
-  name: docker
+  name: podman
 lint: "${MOLECULE_SCENARIO_DIRECTORY}/linters.sh"
 platforms:
   - name: "centos6-${INSTANCE_UUID:-1}"
