@@ -1,0 +1,7 @@
+commitizen:
+  annotated_tag: true
+  changelog_start_rev: 1.4.0
+  name: cz_conventional_commits
+  tag_format: $version
+  update_changelog_on_bump: true
+  version: 2.0.0
