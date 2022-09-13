@@ -1,4 +1,7 @@
 ---
 
 exclude_paths:
-  - meta
+  - .cz.yaml
+
+kinds:
+  - yaml: "**/molecule/**/requirements.yml"
