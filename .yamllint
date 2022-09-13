@@ -1,5 +1,8 @@
 ---
 
+ignore: |
+  .cz.yaml
+
 extends: default
 
 rules:
